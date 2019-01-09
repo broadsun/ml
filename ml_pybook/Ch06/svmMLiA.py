@@ -30,6 +30,7 @@ def clipAlpha(aj,H,L):
 
 def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
     dataMatrix = mat(dataMatIn); labelMat = mat(classLabels).transpose()
+    print dataMatrix.shape,labelMat.shape;exit(0)
     b = 0; m,n = shape(dataMatrix)
     alphas = mat(zeros((m,1)))
     iter = 0
@@ -68,6 +69,16 @@ def smoSimple(dataMatIn, classLabels, C, toler, maxIter):
         else: iter = 0
         print "iteration number: %d" % iter
     return b,alphas
+
+dataMat,labelMat = loadDataSet("testSet.txt")
+C = 100
+toler=10
+maxIter=20
+smoSimple(dataMat, labelMat, C, toler, maxIter)
+
+
+
+
 
 def kernelTrans(X, A, kTup): #calc the kernel or transform data to a higher dimensional space
     m,n = shape(X)

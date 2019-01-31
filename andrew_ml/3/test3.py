@@ -54,6 +54,9 @@ def gradient(theta, X, y, learningRate):
 
     return np.array(grad).ravel()
 
+def all_func(theta, X, y, learningRate):
+    return cost(theta, X, y, learningRate), gradient(theta, X, y, learningRate)
+
 from scipy.optimize import minimize
 
 def one_vs_all(X, y, num_labels, learning_rate):
@@ -72,7 +75,8 @@ def one_vs_all(X, y, num_labels, learning_rate):
         y_i = np.array([1 if label == i else 0 for label in y])
         y_i = np.reshape(y_i, (rows, 1))
         # minimize the objective function
-        fmin = minimize(fun=cost, x0=theta, args=(X, y_i, learning_rate), method='TNC', jac=gradient)
+        #fmin = minimize(fun=cost, x0=theta, args=(X, y_i, learning_rate), method='TNC', jac=gradient)
+        fmin = minimize(fun=all_func, x0=theta, args=(X, y_i, learning_rate), method='TNC', jac=True)
         all_theta[i-1,:] = fmin.x
     
     return all_theta
@@ -94,9 +98,9 @@ y_0 = np.reshape(y_0, (rows, 1))
 print X.shape, y_0.shape, theta.shape, all_theta.shape,data['y'].shape;
 
 print np.unique(data['y'])#看下有几类标签
-
-# all_theta = one_vs_all(data['X'], data['y'], 10, 1)
-# print all_theta
+#exit(0)
+all_theta = one_vs_all(data['X'], data['y'], 10, 1)
+print all_theta
 
 # with open(r'D:\tmp.pk', 'w') as f:
 #    pickle.dump(all_theta, f)
@@ -122,7 +126,7 @@ def predict_all(X, all_theta):
 
     # create array of the index with the maximum probability
     h_argmax = np.argmax(h, axis=1)
-    print h_argmax.shape; exit(0);
+    #print h_argmax.shape; exit(0);
     # because our array was zero-indexed we need to add one for the true label prediction
     h_argmax = h_argmax + 1
     

@@ -21,7 +21,8 @@ def create_data():
 
 X, y = create_data()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
-
+print(y_test)
+exit(0)
 
 class NaiveBayes:
     def __init__(self):

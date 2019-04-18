@@ -1,9 +1,10 @@
 #coding=utf8
 import tensorflow as tf
 v1 = tf.Variable(0, dtype=tf.float32)
+v2 = tf.Variable(1, dtype=tf.float32)
 step = tf.Variable(0, trainable=False)
 ema = tf.train.ExponentialMovingAverage(0.99, step)
-maintain_averages_op = ema.apply([v1])
+maintain_averages_op = ema.apply([v1,v2])
 
 with tf.Session() as sess:
     
@@ -14,6 +15,10 @@ with tf.Session() as sess:
     
     # 更新变量v1的取值
     sess.run(tf.assign(v1, 5))
+    sess.run(maintain_averages_op)
+    print(sess.run([v1, ema.average(v1)]))
+    sess.run(maintain_averages_op)
+    print(sess.run([v1, ema.average(v1)]))
     sess.run(maintain_averages_op)
     print(sess.run([v1, ema.average(v1)]))
     

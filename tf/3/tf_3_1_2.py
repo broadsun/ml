@@ -30,3 +30,4 @@ with tf.Session(graph=g) as sess:
 
 
 print(tf.GraphKeys.GLOBAL_VARIABLES)
+print(tf.GraphKeys.TRAINABLE_VARIABLES)

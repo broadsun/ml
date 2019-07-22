@@ -23,11 +23,16 @@ g=tf.Graph()
 g.device('/gpu:0')
 with g.as_default():
     v = tf.get_variable("v", initializer=tf.ones_initializer()(shape=[2]))
+    v1 = tf.get_variable("v11", initializer=tf.ones_initializer()(shape=[2]))
 with tf.Session(graph=g) as sess:
     tf.global_variables_initializer().run()
     with tf.variable_scope("", reuse=True):
-         print(sess.run(tf.get_variable("v")))
+        print(sess.run(tf.get_variable("v")))
+        print(tf.GraphKeys.GLOBAL_VARIABLES)
+        print(tf.GraphKeys.TRAINABLE_VARIABLES)
+        print(tf.trainable_variables())
 
 
 print(tf.GraphKeys.GLOBAL_VARIABLES)
 print(tf.GraphKeys.TRAINABLE_VARIABLES)
+print(tf.trainable_variables())
